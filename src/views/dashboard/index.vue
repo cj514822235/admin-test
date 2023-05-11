@@ -1,6 +1,8 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    
+    <panel-group @handleSetLineChartData="handleSetLineChartData" />
+
     <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
       <line-chart :chart-data="lineChartData" />
     </el-row>
@@ -10,6 +12,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import LineChart from './LineChart'
+import PanelGroup from './PanelGroup'
+
 
 const lineChartData = {
   newVisitis: {
@@ -30,12 +34,11 @@ const lineChartData = {
   }
 }
 
-
-
 export default {
   name: 'Dashboard',
   components: {
     LineChart,
+    PanelGroup
   },
 
   data() {
@@ -43,10 +46,14 @@ export default {
       lineChartData: lineChartData.newVisitis
     }
   },
+
+  methods :{
+    handleSetLineChartData(type){
+      this.lineChartData=lineChartData[type]
+    }
+
+  },
   computed: {
-    ...mapGetters([
-      'name'
-    ])
   }
 }
 </script>
@@ -54,11 +61,19 @@ export default {
 <style lang="scss" scoped>
 .dashboard {
   &-container {
-    margin: 30px;
+  padding: 32px;
+  background-color: rgb(240, 242, 245);
+  position: relative;
   }
+
   &-text {
     font-size: 30px;
     line-height: 46px;
   }
+}
+
+.line-chart {
+  display: flex;
+  width: 100%;
 }
 </style>
